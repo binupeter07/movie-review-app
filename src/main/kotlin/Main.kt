@@ -132,7 +132,16 @@ fun updateMovie() {
 }
 
 fun deleteMovie() {
-
+    listMovies()
+    if (movieAPI.numberOfMovies() > 0) {
+        val id = readNextInt("Enter the id of the note to delete: ")
+        val noteToDelete = movieAPI.delete(id)
+        if (noteToDelete) {
+            println("Delete Successful!")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun archiveMovie() {

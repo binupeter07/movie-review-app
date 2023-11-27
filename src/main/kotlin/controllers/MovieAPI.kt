@@ -27,10 +27,10 @@ class MovieAPI {
 
             return true
         }
-
-        // if the note was not found, return false, indicating that the update was not successful
         return false
     }
+
+    fun delete(id: Int) = movies.removeIf { movie -> movie.movieId == id }
     fun listAllMovies() =
         if (movies.isEmpty()) "No movies stored"
         else Utilities.formatListString(movies)
