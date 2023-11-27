@@ -39,14 +39,14 @@ fun mainMenu() = readNextInt(
          > |   7) Update rating on a movie                     |
          > |   8) Delete rating from a movie                   |
          > -----------------------------------------------------  
-         > | REPORT MENU FOR NOTES                             | 
+         > | REPORT MENU FOR MOVIES                             | 
          > |   10) Search for all movies (by movie genre)     |
          > |   11) .....                                       |
          > |   12) .....                                       |
          > |   13) .....                                       |
          > |   14) .....                                       |
          > -----------------------------------------------------  
-         > | REPORT MENU FOR ITEMS                             |                                
+         > | REPORT MENU FOR REVIEWS                             |                                
          > |   15) Search for all ratings (by movie rating)  |
          > |   16) List TODO Items                             |
          > |   17) .....                                       |
@@ -89,7 +89,7 @@ fun listMovies() {
             else -> println("Invalid option entered: $option")
         }
     } else {
-        println("Option Invalid - No notes stored")
+        println("Option Invalid - No movies stored")
     }
 }
 
@@ -137,8 +137,8 @@ fun deleteMovie() {
     listMovies()
     if (movieAPI.numberOfMovies() > 0) {
         val id = readNextInt("Enter the id of the movie to delete: ")
-        val noteToDelete = movieAPI.delete(id)
-        if (noteToDelete) {
+        val movieToDelete = movieAPI.delete(id)
+        if (movieToDelete) {
             println("Delete Successful!")
         } else {
             println("Delete NOT Successful")
@@ -149,7 +149,7 @@ fun deleteMovie() {
 fun archiveMovie() {
     listActiveMovies()
     if (movieAPI.numberOfActiveMovies() > 0) {
-        val id = readNextInt("Enter the id of the note to archive: ")
+        val id = readNextInt("Enter the id of the movie to archive: ")
         if (movieAPI.archiveMovie(id)) {
             println("Archive Successful!")
         } else {
@@ -171,6 +171,43 @@ private fun addRatingToMovie() {
 
 }
 
+fun updateReviewsInMovie() {
+    val movie: Movie? = askUserToChooseActiveMovie()
+    if (movie != null) {
+        val review: Review? = askUserToChooseReview(movie)
+        if (review != null) {
+            val option = readNextInt(
+                """
+                  > -----------------------------------
+                  > |   1) Update your name           |
+                  > |   2) Update rating              |
+                  > |   3) Update review text         |
+                  > -----------------------------------
+         > ==>> """.trimMargin(">")
+            )
+
+            val userInput = when (option) {
+                1 -> "Enter your name "
+                2 -> "Enter rating: "
+                3 -> "Enter review text "
+                else -> ""
+            }
+
+            val newValue = ScannerInput.readNextLine(userInput)
+
+            if (movie.update(review.ratingId, option, newValue)) {
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no movies for this index number")
+        }
+    } else {
+        println("Invalid Item Id")
+    }
+}
+
 private fun askUserToChooseActiveMovie(): Movie? {
     listActiveMovies()
     if (movieAPI.numberOfActiveMovies() > 0) {
@@ -186,6 +223,17 @@ private fun askUserToChooseActiveMovie(): Movie? {
         }
     }
     return null
+}
+
+private fun askUserToChooseReview(movie: Movie): Review? {
+    if (movie.numberOfRatings() > 0) {
+        print(movie.listRatings())
+        return movie.findOne(readNextInt("\nEnter the id of the review: "))
+    }
+    else{
+        println ("No items for chosen note")
+        return null
+    }
 }
 
 fun listAllMovies() = println(movieAPI.listAllMovies())
