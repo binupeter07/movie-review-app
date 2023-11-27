@@ -1,5 +1,6 @@
 import controllers.MovieAPI
 import models.Movie
+import models.Review
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 
@@ -15,6 +16,7 @@ fun runMenu() {
             3 -> updateMovie()
             4 -> deleteMovie()
             5 -> archiveMovie()
+            6 -> addRatingToMovie()
             else -> println("Invalid menu choice: $option")
         }
     } while (true)
@@ -154,6 +156,36 @@ fun archiveMovie() {
             println("Archive NOT Successful")
         }
     }
+}
+
+private fun addRatingToMovie() {
+    val movie: Movie? = askUserToChooseActiveMovie()
+    if (movie != null) {
+        val userName = ScannerInput.readNextLine("Enter your name")
+        val movieRating = readNextInt("Enter the rating ")
+        val movieReview = ScannerInput.readNextLine("Tell me the review about the movie")
+        movie.addRating(Review(name = userName, rating = movieRating, reviewText = movieReview))
+        println("Add Successful!")
+    }
+    else println("Add NOT Successful")
+
+}
+
+private fun askUserToChooseActiveMovie(): Movie? {
+    listActiveMovies()
+    if (movieAPI.numberOfActiveMovies() > 0) {
+        val movie = movieAPI.findMovie(readNextInt("\nEnter the id of the movie: "))
+        if (movie != null) {
+            if (movie.isMovieArchived) {
+                println("Movie is NOT Active, it is Archived")
+            } else {
+                return movie
+            }
+        } else {
+            println("Movie id is not valid")
+        }
+    }
+    return null
 }
 
 fun listAllMovies() = println(movieAPI.listAllMovies())
