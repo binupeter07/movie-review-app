@@ -10,6 +10,7 @@ class MovieAPI {
     private var lastId = 0
     private fun getId() = lastId++
 
+    //  CRUD METHODS FOR MOVIE ArrayList
     fun add(movie: Movie): Boolean {
         movie.movieId = getId()
         return movies.add(movie)
@@ -41,6 +42,9 @@ class MovieAPI {
         return false
     }
 
+    // ----------------------------------------------
+    //  LISTING METHODS FOR MOVIE ArrayList
+    // ----------------------------------------------
     fun listAllMovies() =
         if (movies.isEmpty()) "No movies stored"
         else Utilities.formatListString(movies)
@@ -49,9 +53,15 @@ class MovieAPI {
         if (numberOfActiveMovies() == 0) "No active movies stored"
         else Utilities.formatListString(movies.filter { movie -> !movie.isMovieArchived })
 
-
+    // ----------------------------------------------
+    //  COUNTING METHODS FOR MOVIE ArrayList
+    // ----------------------------------------------
     fun numberOfMovies() = movies.size
     fun numberOfActiveMovies(): Int = movies.count { movie: Movie -> !movie.isMovieArchived }
+
+    // ----------------------------------------------
+    //  SEARCHING METHODS
+    // ---------------------------------------------
     fun findMovie(movieId : Int) =  movies.find{ movie -> movie.movieId == movieId }
 
 }

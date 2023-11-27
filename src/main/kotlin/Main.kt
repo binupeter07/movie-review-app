@@ -1,5 +1,6 @@
 import controllers.MovieAPI
 import models.Movie
+import models.Review
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 
@@ -15,6 +16,7 @@ fun runMenu() {
             3 -> updateMovie()
             4 -> deleteMovie()
             5 -> archiveMovie()
+            6 -> addRatingToMovie()
             else -> println("Invalid menu choice: $option")
         }
     } while (true)
@@ -37,14 +39,14 @@ fun mainMenu() = readNextInt(
          > |   7) Update rating on a movie                     |
          > |   8) Delete rating from a movie                   |
          > -----------------------------------------------------  
-         > | REPORT MENU FOR NOTES                             | 
+         > | REPORT MENU FOR MOVIES                             | 
          > |   10) Search for all movies (by movie genre)     |
          > |   11) .....                                       |
          > |   12) .....                                       |
          > |   13) .....                                       |
          > |   14) .....                                       |
          > -----------------------------------------------------  
-         > | REPORT MENU FOR ITEMS                             |                                
+         > | REPORT MENU FOR REVIEWS                             |                                
          > |   15) Search for all ratings (by movie rating)  |
          > |   16) List TODO Items                             |
          > |   17) .....                                       |
@@ -87,7 +89,7 @@ fun listMovies() {
             else -> println("Invalid option entered: $option")
         }
     } else {
-        println("Option Invalid - No notes stored")
+        println("Option Invalid - No movies stored")
     }
 }
 
@@ -135,8 +137,8 @@ fun deleteMovie() {
     listMovies()
     if (movieAPI.numberOfMovies() > 0) {
         val id = readNextInt("Enter the id of the movie to delete: ")
-        val noteToDelete = movieAPI.delete(id)
-        if (noteToDelete) {
+        val movieToDelete = movieAPI.delete(id)
+        if (movieToDelete) {
             println("Delete Successful!")
         } else {
             println("Delete NOT Successful")
@@ -147,12 +149,105 @@ fun deleteMovie() {
 fun archiveMovie() {
     listActiveMovies()
     if (movieAPI.numberOfActiveMovies() > 0) {
-        val id = readNextInt("Enter the id of the note to archive: ")
+        val id = readNextInt("Enter the id of the movie to archive: ")
         if (movieAPI.archiveMovie(id)) {
             println("Archive Successful!")
         } else {
             println("Archive NOT Successful")
         }
+    }
+}
+
+private fun addRatingToMovie() {
+    val movie: Movie? = askUserToChooseActiveMovie()
+    if (movie != null) {
+        val userName = ScannerInput.readNextLine("Enter your name")
+        val movieRating = readNextInt("Enter the rating ")
+        val movieReview = ScannerInput.readNextLine("Tell me the review about the movie")
+        movie.addRating(Review(name = userName, rating = movieRating, reviewText = movieReview))
+        println("Add Successful!")
+    }
+    else println("Add NOT Successful")
+
+}
+
+fun updateReviewsInMovie() {
+    val movie: Movie? = askUserToChooseActiveMovie()
+    if (movie != null) {
+        val review: Review? = askUserToChooseReview(movie)
+        if (review != null) {
+            val option = readNextInt(
+                """
+                  > -----------------------------------
+                  > |   1) Update your name           |
+                  > |   2) Update rating              |
+                  > |   3) Update review text         |
+                  > -----------------------------------
+         > ==>> """.trimMargin(">")
+            )
+
+            val userInput = when (option) {
+                1 -> "Enter your name "
+                2 -> "Enter rating: "
+                3 -> "Enter review text "
+                else -> ""
+            }
+
+            val newValue = ScannerInput.readNextLine(userInput)
+
+            if (movie.update(review.ratingId, option, newValue)) {
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no movies for this index number")
+        }
+    } else {
+        println("Invalid Item Id")
+    }
+}
+
+fun deleteAnMovie() {
+    val movie: Movie? = askUserToChooseActiveMovie()
+    if (movie != null) {
+        val review: Review? = askUserToChooseReview(movie)
+        if (review != null) {
+            val isDeleted = movie.delete(review.ratingId)
+            if (isDeleted) {
+                println("Delete Successful!")
+            } else {
+                println("Delete NOT Successful")
+            }
+        }
+    }
+}
+
+private fun askUserToChooseActiveMovie(): Movie? {
+    listActiveMovies()
+    if (movieAPI.numberOfActiveMovies() > 0) {
+        val movie = movieAPI.findMovie(readNextInt("\nEnter the id of the movie: "))
+        if (movie != null) {
+            if (movie.isMovieArchived) {
+                println("Movie is NOT Active, it is Archived")
+            } else {
+                return movie
+            }
+        } else {
+            println("Movie id is not valid")
+        }
+    }
+    return null
+}
+
+private fun askUserToChooseReview(movie: Movie): Review? {
+    if (movie.numberOfRatings() > 0) {
+        print(movie.listRatings())
+        return movie.findOne(readNextInt("\nEnter the id of the review: "))
+    }
+    else{
+        println ("No items for chosen note")
+        return null
     }
 }
 
