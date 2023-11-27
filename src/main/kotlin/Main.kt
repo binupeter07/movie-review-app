@@ -145,7 +145,16 @@ fun deleteMovie() {
 }
 
 fun archiveMovie() {
-
+    listActiveMovies()
+    if (movieAPI.numberOfActiveMovies() > 0) {
+        val id = readNextInt("Enter the id of the note to archive: ")
+        if (movieAPI.archiveMovie(id)) {
+            println("Archive Successful!")
+        } else {
+            println("Archive NOT Successful")
+        }
+    }
 }
 
 fun listAllMovies() = println(movieAPI.listAllMovies())
+fun listActiveMovies() = println(movieAPI.listActiveMovies())

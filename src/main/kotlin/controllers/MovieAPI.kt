@@ -31,12 +31,27 @@ class MovieAPI {
     }
 
     fun delete(id: Int) = movies.removeIf { movie -> movie.movieId == id }
+
+    fun archiveMovie(id: Int): Boolean {
+        val foundMovie = findMovie(id)
+        if (( foundMovie != null) && (!foundMovie.isMovieArchived)) {
+            foundMovie.isMovieArchived = true
+            return true
+        }
+        return false
+    }
+
     fun listAllMovies() =
         if (movies.isEmpty()) "No movies stored"
         else Utilities.formatListString(movies)
 
+    fun listActiveMovies() =
+        if (numberOfActiveMovies() == 0) "No active movies stored"
+        else Utilities.formatListString(movies.filter { movie -> !movie.isMovieArchived })
+
 
     fun numberOfMovies() = movies.size
+    fun numberOfActiveMovies(): Int = movies.count { movie: Movie -> !movie.isMovieArchived }
     fun findMovie(movieId : Int) =  movies.find{ movie -> movie.movieId == movieId }
 
 }
