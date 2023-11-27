@@ -92,7 +92,43 @@ fun listMovies() {
 }
 
 fun updateMovie() {
+    listMovies()
 
+    if (movieAPI.numberOfMovies() > 0) {
+        val id = readNextInt("Enter the id of the movie to update: ")
+        val movie = movieAPI.findMovie(id)
+
+        if (movie != null) {
+            val option = readNextInt(
+                """
+                  > -----------------------------------
+                  > |   1) Update Name of the movie   |
+                  > |   2) Update Genre               |
+                  > |   3) Update director            |
+                  > |   4) Update movie actors        |
+                  > -----------------------------------
+         > ==>> """.trimMargin(">")
+            )
+
+            val userInput = when (option) {
+                1 -> "Enter the name of the movie: "
+                2 -> "Enter the genre of the movie: "
+                3 -> "Enter the name of director: "
+                4 -> "Enter the name of actors: "
+                else -> ""
+            }
+
+            val newValue = ScannerInput.readNextLine(userInput)
+
+            if (movieAPI.update(id, option, newValue)) {
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no movies for this index number")
+        }
+    }
 }
 
 fun deleteMovie() {
