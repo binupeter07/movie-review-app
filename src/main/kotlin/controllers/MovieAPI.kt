@@ -60,6 +60,14 @@ class MovieAPI {
     fun numberOfActiveMovies(): Int = movies.count { movie: Movie -> !movie.isMovieArchived }
 
     // ----------------------------------------------
+    //  LISTING METHODS FOR MOVIE ArrayList
+    // ----------------------------------------------
+    fun listArchivedMovies() =
+        if (numberOfArchivedMovies() == 0) "No archived movies stored"
+        else Utilities.formatListString(movies.filter { movie -> movie.isMovieArchived })
+
+    fun numberOfArchivedMovies(): Int = movies.count { movie: Movie -> movie.isMovieArchived }
+    // ----------------------------------------------
     //  SEARCHING METHODS
     // ---------------------------------------------
     fun findMovie(movieId : Int) =  movies.find{ movie -> movie.movieId == movieId }

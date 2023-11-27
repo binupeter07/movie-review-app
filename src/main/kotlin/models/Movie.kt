@@ -2,7 +2,7 @@ package models
 
 import utils.Utilities
 
-class Movie (var movieId: Int =0,
+data class Movie (var movieId: Int =0,
              var movieName: String,
              var movieGenre: String,
              var directorName: String,
@@ -48,4 +48,9 @@ class Movie (var movieId: Int =0,
         return ratings.find { review -> review.ratingId == id }
     }
     fun numberOfRatings() = ratings.size
+
+    override fun toString(): String {
+        val archived = if (isMovieArchived) 'Y' else 'N'
+        return "$movieId: Movie Name($movieName), Movie Genre($movieGenre), Movie Director($directorName), Movie Actors($stars) Archived($archived) \n${listRatings()}"
+    }
 }

@@ -3,7 +3,7 @@ import models.Movie
 import models.Review
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
-
+import kotlin.system.exitProcess
 private val movieAPI = MovieAPI()
 
 fun main() = runMenu()
@@ -17,6 +17,8 @@ fun runMenu() {
             4 -> deleteMovie()
             5 -> archiveMovie()
             6 -> addRatingToMovie()
+            7 -> updateReviewsInMovie()
+            8 -> deleteReview()
             else -> println("Invalid menu choice: $option")
         }
     } while (true)
@@ -86,6 +88,8 @@ fun listMovies() {
 
         when (option) {
             1 -> listAllMovies()
+            2 -> listActiveMovies()
+            3 -> listArchivedMovies()
             else -> println("Invalid option entered: $option")
         }
     } else {
@@ -208,7 +212,7 @@ fun updateReviewsInMovie() {
     }
 }
 
-fun deleteAnMovie() {
+fun deleteReview() {
     val movie: Movie? = askUserToChooseActiveMovie()
     if (movie != null) {
         val review: Review? = askUserToChooseReview(movie)
@@ -253,3 +257,5 @@ private fun askUserToChooseReview(movie: Movie): Review? {
 
 fun listAllMovies() = println(movieAPI.listAllMovies())
 fun listActiveMovies() = println(movieAPI.listActiveMovies())
+
+fun listArchivedMovies() = println(movieAPI.listArchivedMovies())
