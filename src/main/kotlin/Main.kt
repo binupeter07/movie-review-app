@@ -208,6 +208,21 @@ fun updateReviewsInMovie() {
     }
 }
 
+fun deleteAnMovie() {
+    val movie: Movie? = askUserToChooseActiveMovie()
+    if (movie != null) {
+        val review: Review? = askUserToChooseReview(movie)
+        if (review != null) {
+            val isDeleted = movie.delete(review.ratingId)
+            if (isDeleted) {
+                println("Delete Successful!")
+            } else {
+                println("Delete NOT Successful")
+            }
+        }
+    }
+}
+
 private fun askUserToChooseActiveMovie(): Movie? {
     listActiveMovies()
     if (movieAPI.numberOfActiveMovies() > 0) {

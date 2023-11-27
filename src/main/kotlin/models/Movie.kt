@@ -35,6 +35,10 @@ class Movie (var movieId: Int =0,
         return false
     }
 
+    fun delete(id: Int): Boolean {
+        return ratings.removeIf { rating -> rating.ratingId == id }
+    }
+
     fun listRatings() =
         if (ratings.isEmpty()) "\tNO RATINGS ADDED"
         else Utilities.formatSetString(ratings)
