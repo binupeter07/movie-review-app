@@ -1,11 +1,23 @@
+import controllers.MovieAPI
+import models.Movie
+import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 
-fun main(args: Array<String>) {
-    println("Hello World!")
+private val movieAPI = MovieAPI()
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main() = runMenu()
+
+fun runMenu() {
+    do {
+        when (val option = mainMenu()) {
+            1 -> addMovie()
+            2 -> listMovies()
+            3 -> updateMovie()
+            4 -> deleteMovie()
+            5 -> archiveMovie()
+            else -> println("Invalid menu choice: $option")
+        }
+    } while (true)
 }
 
 fun mainMenu() = readNextInt(
@@ -45,11 +57,38 @@ fun mainMenu() = readNextInt(
 )
 
 fun addMovie() {
+    val movieName = ScannerInput.readNextLine("Enter the name of movie: ")
+    val movieGenre = ScannerInput.readNextLine("Enter the genre")
+    val movieDirector = ScannerInput.readNextLine("Enter director name: ")
+    val movieStars = ScannerInput.readNextLine("Enter actors name : ")
+    val isAdded = movieAPI.add(Movie( movieName= movieName, movieGenre = movieGenre, directorName = movieDirector, stars = movieStars))
 
+    if (isAdded) {
+        println("Added Successfully")
+    } else {
+        println("Add Failed")
+    }
 }
 
 fun listMovies() {
+    if (movieAPI.numberOfMovies() > 0) {
+        val option = readNextInt(
+            """
+                  > ---------------------------------
+                  > |   1) View ALL movies          |
+                  > |   2) View ACTIVE movies       |
+                  > |   3) View ARCHIVED movies     |
+                  > ---------------------------------
+         > ==>> """.trimMargin(">")
+        )
 
+        when (option) {
+            1 -> listAllMovies()
+            else -> println("Invalid option entered: $option")
+        }
+    } else {
+        println("Option Invalid - No notes stored")
+    }
 }
 
 fun updateMovie() {
@@ -63,3 +102,5 @@ fun deleteMovie() {
 fun archiveMovie() {
 
 }
+
+fun listAllMovies() = println(movieAPI.listAllMovies())
