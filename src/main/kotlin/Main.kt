@@ -21,6 +21,7 @@ fun runMenu() {
             8 -> deleteReview()
             9 -> searchMovieByGenre()
             10 -> searchMovieByActor()
+            11 -> listTopFiveMovies()
             -99 -> dummyData()
             else -> println("Invalid menu choice: $option")
         }
@@ -47,7 +48,7 @@ fun mainMenu() = readNextInt(
          > | REPORT MENU FOR MOVIES                            | 
          > |   09) Search for all movies (by movie genre)      |
          > |   10) Search for all movies (by actor name)       |                                
-         > |   11) List movies by high rating                  |
+         > |   11) List Top 5 movies( By average Rating)       |
          > |   13) .....                                       |
          > |   14) .....                                       |
          > -----------------------------------------------------  
@@ -295,3 +296,4 @@ fun listAllMovies() = println(movieAPI.listAllMovies())
 fun listActiveMovies() = println(movieAPI.listActiveMovies())
 
 fun listArchivedMovies() = println(movieAPI.listArchivedMovies())
+fun listTopFiveMovies() = println(movieAPI.listTopFiveRatedMovies())
