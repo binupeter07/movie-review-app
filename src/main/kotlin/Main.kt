@@ -1,8 +1,9 @@
 import controllers.MovieAPI
 import models.Movie
 import models.Review
-import utils.ScannerInput
+import utils.ScannerInput.readNextLine
 import utils.ScannerInput.readNextInt
+import utils.ScannerInput.readNextBoolean
 import kotlin.system.exitProcess
 private val movieAPI = MovieAPI()
 
@@ -65,10 +66,10 @@ fun mainMenu() = readNextInt(
 )
 
 fun addMovie() {
-    val movieName = ScannerInput.readNextLine("Enter the name of movie: ")
-    val movieGenre = ScannerInput.readNextLine("Enter the genre")
-    val movieDirector = ScannerInput.readNextLine("Enter director name: ")
-    val movieStars = ScannerInput.readNextLine("Enter actors name : ")
+    val movieName = readNextLine("Enter the name of movie: ")
+    val movieGenre = readNextLine("Enter the genre")
+    val movieDirector = readNextLine("Enter director name: ")
+    val movieStars = readNextLine("Enter actors name : ")
     val isAdded = movieAPI.add(Movie( movieName= movieName, movieGenre = movieGenre, directorName = movieDirector, stars = movieStars))
 
     if (isAdded) {
@@ -128,7 +129,7 @@ fun updateMovie() {
                 else -> ""
             }
 
-            val newValue = ScannerInput.readNextLine(userInput)
+            val newValue = readNextLine(userInput)
 
             if (movieAPI.update(id, option, newValue)) {
                 println("Update Successful")
@@ -169,10 +170,11 @@ fun archiveMovie() {
 private fun addRatingToMovie() {
     val movie: Movie? = askUserToChooseActiveMovie()
     if (movie != null) {
-        val userName = ScannerInput.readNextLine("Enter your name")
+        val userName = readNextLine("Enter your name ")
         val movieRating = readNextInt("Enter the rating ")
-        val movieReview = ScannerInput.readNextLine("Tell me the review about the movie")
-        movie.addRating(Review(name = userName, rating = movieRating, reviewText = movieReview))
+        val movieReview = readNextLine("Tell me the review about the movie ")
+        val isFavorite = readNextBoolean("Mark this movie as Favourite( Type yes or no ) ")
+        movie.addRating(Review(name = userName, rating = movieRating, reviewText = movieReview, isFavorite = isFavorite))
         println("Add Successful!")
     }
     else println("Add NOT Successful")
@@ -201,7 +203,7 @@ fun updateReviewsInMovie() {
                 else -> ""
             }
 
-            val newValue = ScannerInput.readNextLine(userInput)
+            val newValue = readNextLine(userInput)
 
             if (movie.update(review.ratingId, option, newValue)) {
                 println("Update Successful")
@@ -236,7 +238,7 @@ fun deleteReview() {
 //------------------------------------
 
 fun searchMovieByGenre(){
-        val searchGenre = ScannerInput.readNextLine("Enter the genre to search by: ")
+        val searchGenre = readNextLine("Enter the genre to search by: ")
         val searchResults = movieAPI.searchByGenre(searchGenre)
         if (searchResults.isEmpty()) {
             println("No movies for this genre stored")
@@ -246,7 +248,7 @@ fun searchMovieByGenre(){
 }
 
 fun searchMovieByActor(){
-    val searchActor = ScannerInput.readNextLine("Enter the actor to search by: ")
+    val searchActor = readNextLine("Enter the actor to search by: ")
     val searchResults = movieAPI.searchByActor(searchActor)
     if (searchResults.isEmpty()) {
         println("No movies for searched actor stored")

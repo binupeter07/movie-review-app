@@ -3,7 +3,9 @@ package models
 data class Review(var ratingId: Int =0,
              var name: String,
              var rating: Int,
-             var reviewText: String) {
+             var reviewText: String,
+             var isFavorite:Boolean = false
+    ) {
     override fun toString(): String {
 
         return """
@@ -12,6 +14,7 @@ data class Review(var ratingId: Int =0,
                            Reviewer Name: $name
                            Rating:        $rating
                            Review Text:   $reviewText
+                           Favourite Movie:$isFavorite
         """.trimIndent()
 
     }
