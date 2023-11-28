@@ -243,6 +243,16 @@ fun searchMovieByGenre(){
         }
 }
 
+fun searchMovieByActor(){
+    val searchActor = ScannerInput.readNextLine("Enter the actor to search by: ")
+    val searchResults = movieAPI.searchByActor(searchActor)
+    if (searchResults.isEmpty()) {
+        println("No movies for searched actor stored")
+    } else {
+        println(searchResults)
+    }
+}
+
 
 private fun askUserToChooseActiveMovie(): Movie? {
     listActiveMovies()

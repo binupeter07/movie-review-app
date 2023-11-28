@@ -78,6 +78,9 @@ class MovieAPI {
         Utilities.formatListString(
             movies.filter { movie -> movie.movieGenre.contains(genre, ignoreCase = true) })
 
+    fun searchByActor(actor: String) =
+        Utilities.formatListString(
+            movies.filter { movie -> movie.stars.contains(actor, ignoreCase = true) })
 
 
 }
