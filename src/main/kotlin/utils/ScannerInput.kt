@@ -18,6 +18,21 @@ object ScannerInput {
         } while (true)
     }
 
+    fun readNextBoolean(prompt: String?): Boolean {
+        do {
+            try {
+                print(prompt)
+                val userInput = Scanner(System.`in`).next().lowercase()
+                if (userInput == "yes") {
+                    return true
+                } else if (userInput == "no" ) {
+                    return false
+                }
+            } catch (e: Exception) {
+                System.err.println("\tEnter yer or no.")
+            }
+        } while (true)
+    }
 
     fun readNextDouble(prompt: String?): Double {
         do {

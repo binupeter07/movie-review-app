@@ -1,7 +1,7 @@
 package controllers
 
 import models.Movie
-import utils.Utilities
+import utils.Utilities.formatListString
 import java.util.ArrayList
 
 class MovieAPI {
@@ -47,11 +47,11 @@ class MovieAPI {
     // ----------------------------------------------
     fun listAllMovies() =
         if (movies.isEmpty()) "No movies stored"
-        else Utilities.formatListString(movies)
+        else formatListString(movies)
 
     fun listActiveMovies() =
         if (numberOfActiveMovies() == 0) "No active movies stored"
-        else Utilities.formatListString(movies.filter { movie -> !movie.isMovieArchived })
+        else formatListString(movies.filter { movie -> !movie.isMovieArchived })
 
 
 
@@ -66,14 +66,19 @@ class MovieAPI {
     // ----------------------------------------------
     fun listArchivedMovies() =
         if (numberOfArchivedMovies() == 0) "No archived movies stored"
-        else Utilities.formatListString(movies.filter { movie -> movie.isMovieArchived })
+        else formatListString(movies.filter { movie -> movie.isMovieArchived })
 
     fun listTopFiveRatedMovies() =
         if (numberOfActiveMovies() == 0) "No active movies stored"
-        else Utilities.formatListString(movies.sortedByDescending { movie -> movie.averageRating }.take(5))
+        else formatListString(movies.sortedByDescending { movie -> movie.averageRating }.take(5))
 
-
-
+    fun listTopFiveMoviesByFavorites(): String {
+        return if (numberOfActiveMovies() == 0) {
+            "No active movies stored"
+        } else {
+            formatListString(movies.sortedByDescending { movie -> movie.numberOfFavorites() }.take(5))
+        }
+    }
 
     fun numberOfArchivedMovies(): Int = movies.count { movie: Movie -> movie.isMovieArchived }
 
@@ -84,11 +89,11 @@ class MovieAPI {
     fun findMovie(movieId: Int) = movies.find { movie -> movie.movieId == movieId }
 
     fun searchByGenre(genre: String) =
-        Utilities.formatListString(
+        formatListString(
             movies.filter { movie -> movie.movieGenre.contains(genre, ignoreCase = true) })
 
     fun searchByActor(actor: String) =
-        Utilities.formatListString(
+        formatListString(
             movies.filter { movie -> movie.stars.contains(actor, ignoreCase = true) })
 
 }
