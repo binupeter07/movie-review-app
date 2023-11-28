@@ -8,7 +8,8 @@ data class Movie (var movieId: Int =0,
              var directorName: String,
              var stars: String,
              var isMovieArchived: Boolean = false,
-             var ratings : MutableSet<Review> = mutableSetOf()
+             var reviews : MutableSet<Review> = mutableSetOf(),
+             var averageRating: Double =0.0
 ) {
 
     private var lastRatingId = 0
@@ -16,10 +17,12 @@ data class Movie (var movieId: Int =0,
 
     fun addRating(review: Review): Boolean {
         review.ratingId = getRatingId()
-        return ratings.add(review)
+        updateAverageRating()
+        return reviews.add(review)
+
     }
 
-    fun update(id: Int, option: Int, updateField:Any): Boolean {
+    fun update(id: Int, option: Int, updateField: Any): Boolean {
         val foundReview = findOne(id)
 
 
@@ -36,21 +39,33 @@ data class Movie (var movieId: Int =0,
     }
 
     fun delete(id: Int): Boolean {
-        return ratings.removeIf { rating -> rating.ratingId == id }
+        return reviews.removeIf { review -> review.ratingId == id }
     }
 
     fun listRatings() =
-        if (ratings.isEmpty()) "\tNO RATINGS ADDED"
-        else Utilities.formatSetString(ratings)
+        if (reviews.isEmpty()) "\tNO RATINGS ADDED"
+        else Utilities.formatSetString(reviews)
 
+
+    private fun updateAverageRating() {
+        if (reviews.isNotEmpty()) {
+            averageRating = reviews.map { review -> review.rating }.average()
+        }
+    }
 
     fun findOne(id: Int): Review? {
-        return ratings.find { review -> review.ratingId == id }
+        return reviews.find { review -> review.ratingId == id }
     }
-    fun numberOfRatings() = ratings.size
+
+    fun numberOfRatings() = reviews.size
 
     override fun toString(): String {
         val archived = if (isMovieArchived) 'Y' else 'N'
-        return "$movieId: Movie Name($movieName), Movie Genre($movieGenre), Movie Director($directorName), Movie Actors($stars) Archived($archived) \n${listRatings()}"
+        return "$movieId: Movie Name($movieName), Movie Genre($movieGenre), Movie Director($directorName), Movie Actors($stars),Average Rating($averageRating) Archived($archived) \n${listRatings()}"
     }
+
+
 }
+
+
+

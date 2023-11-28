@@ -20,6 +20,7 @@ fun runMenu() {
             7 -> updateReviewsInMovie()
             8 -> deleteReview()
             9 -> searchMovieByGenre()
+            10 -> searchMovieByActor()
             -99 -> dummyData()
             else -> println("Invalid menu choice: $option")
         }
@@ -45,8 +46,8 @@ fun mainMenu() = readNextInt(
          > -----------------------------------------------------  
          > | REPORT MENU FOR MOVIES                            | 
          > |   09) Search for all movies (by movie genre)      |
-         > |   10) Search for all movies (by actor name)       |                                |
-         > |   12) .....                                       |
+         > |   10) Search for all movies (by actor name)       |                                
+         > |   11) List movies by high rating                  |
          > |   13) .....                                       |
          > |   14) .....                                       |
          > -----------------------------------------------------  
@@ -252,6 +253,9 @@ fun searchMovieByActor(){
         println(searchResults)
     }
 }
+
+
+
 
 
 private fun askUserToChooseActiveMovie(): Movie? {
