@@ -23,6 +23,7 @@ fun runMenu() {
             9 -> searchMovieByGenre()
             10 -> searchMovieByActor()
             11 -> listTopFiveMovies()
+            12 ->listTopFiveFavoriteMovies()
             -99 -> dummyData()
             else -> println("Invalid menu choice: $option")
         }
@@ -50,8 +51,7 @@ fun mainMenu() = readNextInt(
          > |   09) Search for all movies (by movie genre)      |
          > |   10) Search for all movies (by actor name)       |                                
          > |   11) List Top 5 movies( By average Rating)       |
-         > |   13) .....                                       |
-         > |   14) .....                                       |
+         > |   12)List Top 5 movies (By Favorites)             |
          > -----------------------------------------------------  
          > | REPORT MENU FOR REVIEWS                             |                                
          > |   15) Search for all ratings (by movie rating)  |
@@ -192,6 +192,7 @@ fun updateReviewsInMovie() {
                   > |   1) Update your name           |
                   > |   2) Update rating              |
                   > |   3) Update review text         |
+                  > |   4) Update Favorite            |
                   > -----------------------------------
          > ==>> """.trimMargin(">")
             )
@@ -211,7 +212,7 @@ fun updateReviewsInMovie() {
                 println("Update Failed")
             }
         } else {
-            println("There are no movies for this index number")
+            println("There are no reviews for this index number")
         }
     } else {
         println("Invalid Item Id")
@@ -299,3 +300,5 @@ fun listActiveMovies() = println(movieAPI.listActiveMovies())
 
 fun listArchivedMovies() = println(movieAPI.listArchivedMovies())
 fun listTopFiveMovies() = println(movieAPI.listTopFiveRatedMovies())
+
+fun listTopFiveFavoriteMovies() = println(movieAPI.listTopFiveMoviesByFavorites())

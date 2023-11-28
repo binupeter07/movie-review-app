@@ -59,6 +59,7 @@ data class Movie (var movieId: Int =0,
 
     fun numberOfRatings() = reviews.size
 
+    fun numberOfFavorites() = reviews.count{  review -> review.isFavorite }
     override fun toString(): String {
         val archived = if (isMovieArchived) 'Y' else 'N'
         return "$movieId: Movie Name($movieName), Movie Genre($movieGenre), Movie Director($directorName), Movie Actors($stars),Average Rating($averageRating) Archived($archived) \n${listRatings()}"
