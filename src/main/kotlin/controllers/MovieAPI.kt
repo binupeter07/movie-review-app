@@ -68,6 +68,9 @@ class MovieAPI {
         if (numberOfArchivedMovies() == 0) "No archived movies stored"
         else Utilities.formatListString(movies.filter { movie -> movie.isMovieArchived })
 
+    fun listTopFiveRatedMovies() =
+        if (numberOfActiveMovies() == 0) "No active movies stored"
+        else Utilities.formatListString(movies.sortedByDescending { movie -> movie.averageRating }.take(5))
 
 
 
