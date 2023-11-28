@@ -6,7 +6,7 @@ import java.util.ArrayList
 
 class MovieAPI {
 
-    private var movies = ArrayList< Movie>()
+    private var movies = ArrayList<Movie>()
     private var lastId = 0
     private fun getId() = lastId++
 
@@ -16,7 +16,7 @@ class MovieAPI {
         return movies.add(movie)
     }
 
-    fun update(id: Int, option: Int, updateField: String ):Boolean{
+    fun update(id: Int, option: Int, updateField: String): Boolean {
         val foundMovie = findMovie(id)
         if ((foundMovie != null)) {
             when (option) {
@@ -35,7 +35,7 @@ class MovieAPI {
 
     fun archiveMovie(id: Int): Boolean {
         val foundMovie = findMovie(id)
-        if (( foundMovie != null) && (!foundMovie.isMovieArchived)) {
+        if ((foundMovie != null) && (!foundMovie.isMovieArchived)) {
             foundMovie.isMovieArchived = true
             return true
         }
@@ -67,12 +67,17 @@ class MovieAPI {
         else Utilities.formatListString(movies.filter { movie -> movie.isMovieArchived })
 
     fun numberOfArchivedMovies(): Int = movies.count { movie: Movie -> movie.isMovieArchived }
+
     // ----------------------------------------------
     //  SEARCHING METHODS
     // ---------------------------------------------
-    fun findMovie(movieId : Int) =  movies.find{ movie -> movie.movieId == movieId }
+    fun findMovie(movieId: Int) = movies.find { movie -> movie.movieId == movieId }
+
+    fun searchByGenre(genre: String) =
+        Utilities.formatListString(
+            movies.filter { movie -> movie.movieGenre.contains(genre, ignoreCase = true) })
+
+
 
 }
-
-
 
