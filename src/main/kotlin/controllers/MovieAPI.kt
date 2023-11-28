@@ -53,6 +53,8 @@ class MovieAPI {
         if (numberOfActiveMovies() == 0) "No active movies stored"
         else Utilities.formatListString(movies.filter { movie -> !movie.isMovieArchived })
 
+
+
     // ----------------------------------------------
     //  COUNTING METHODS FOR MOVIE ArrayList
     // ----------------------------------------------
@@ -65,6 +67,10 @@ class MovieAPI {
     fun listArchivedMovies() =
         if (numberOfArchivedMovies() == 0) "No archived movies stored"
         else Utilities.formatListString(movies.filter { movie -> movie.isMovieArchived })
+
+
+
+
 
     fun numberOfArchivedMovies(): Int = movies.count { movie: Movie -> movie.isMovieArchived }
 
@@ -81,7 +87,6 @@ class MovieAPI {
     fun searchByActor(actor: String) =
         Utilities.formatListString(
             movies.filter { movie -> movie.stars.contains(actor, ignoreCase = true) })
-
 
 }
 
