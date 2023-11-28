@@ -68,6 +68,7 @@ class MovieAPI {
 
     fun numberOfArchivedMovies(): Int = movies.count { movie: Movie -> movie.isMovieArchived }
 
+
     // ----------------------------------------------
     //  SEARCHING METHODS
     // ---------------------------------------------
