@@ -23,7 +23,8 @@ fun runMenu() {
             9 -> searchMovieByGenre()
             10 -> searchMovieByActor()
             11 -> listTopFiveMovies()
-            12 ->listTopFiveFavoriteMovies()
+            12 -> listTopFiveFavoriteMovies()
+            13 -> searchMoviesByRating()
             -99 -> dummyData()
             else -> println("Invalid menu choice: $option")
         }
@@ -51,11 +52,10 @@ fun mainMenu() = readNextInt(
          > |   09) Search for all movies (by movie genre)      |
          > |   10) Search for all movies (by actor name)       |                                
          > |   11) List Top 5 movies( By average Rating)       |
-         > |   12)List Top 5 movies (By Favorites)             |
+         > |   12) List Top 5 movies (By Favorites)            |
          > -----------------------------------------------------  
-         > | REPORT MENU FOR REVIEWS                             |                                
-         > |   15) Search for all ratings (by movie rating)  |
-         > |   16) List TODO Items                             |
+         > | REPORT MENU FOR REVIEWS                           |                                
+         > |   13) Search for all movies (by movie rating)     |
          > |   17) .....                                       |
          > |   18) .....                                       |
          > |   19) .....                                       |
@@ -258,6 +258,15 @@ fun searchMovieByActor(){
     }
 }
 
+fun searchMoviesByRating() {
+    val ratingToSearch = readNextInt("Enter the rating to search by: ")
+    val searchResults = movieAPI.searchMoviesByRating(ratingToSearch.toDouble())
+    if (searchResults.isEmpty()) {
+        println("No movies for this rating stored")
+    } else {
+        println(searchResults)
+    }
+}
 
 
 

@@ -1,6 +1,7 @@
 package controllers
 
 import models.Movie
+import models.Review
 import utils.Utilities.formatListString
 import java.util.ArrayList
 
@@ -80,6 +81,8 @@ class MovieAPI {
         }
     }
 
+
+
     fun numberOfArchivedMovies(): Int = movies.count { movie: Movie -> movie.isMovieArchived }
 
 
@@ -95,6 +98,18 @@ class MovieAPI {
     fun searchByActor(actor: String) =
         formatListString(
             movies.filter { movie -> movie.stars.contains(actor, ignoreCase = true) })
+
+    fun searchMoviesByRating(rating: Double): String {
+        val searchResults = movies.filter { movie -> movie.averageRating == rating }
+        return formatListString(searchResults)
+    }
+
+//fun searchReviewByUser(username:String):List<Review>{
+//    val searchResult = movies.filter { movie -> movie.searchReviewsByUserName(username).isNotEmpty()  }
+//
+//}
+
+
 
 }
 
