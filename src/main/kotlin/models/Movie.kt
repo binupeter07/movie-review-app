@@ -47,9 +47,14 @@ data class Movie (var movieId: Int =0,
         else Utilities.formatSetString(reviews)
 
 
+
     private fun updateAverageRating() {
         if (reviews.isNotEmpty()) {
-            averageRating = reviews.map { review -> review.rating }.average()
+            averageRating = if (reviews.size == 1) {
+                reviews.first().rating.toDouble()
+            } else {
+                reviews.map { it.rating.toDouble() }.average()
+            }
         }
     }
 
