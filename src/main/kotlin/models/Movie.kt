@@ -58,6 +58,11 @@ data class Movie (var movieId: Int =0,
         }
     }
 
+    fun searchMoviesByUserName(name: String): List<Review> {
+        return reviews.filter { review -> review.name.equals(name, ignoreCase = true) }
+    }
+
+
     fun findOne(id: Int): Review? {
         return reviews.find { review -> review.ratingId == id }
     }
