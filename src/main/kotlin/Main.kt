@@ -25,6 +25,8 @@ fun runMenu() {
             11 -> listTopFiveMovies()
             12 -> listTopFiveFavoriteMovies()
             13 -> searchMoviesByRating()
+            14 -> searchMovieByUserName()
+
             -99 -> dummyData()
             else -> println("Invalid menu choice: $option")
         }
@@ -56,6 +58,7 @@ fun mainMenu() = readNextInt(
          > -----------------------------------------------------  
          > | REPORT MENU FOR REVIEWS                           |                                
          > |   13) Search for all movies (by movie rating)     |
+         > |   14) Search Movie by  reviewer username          |
          > |   17) .....                                       |
          > |   18) .....                                       |
          > |   19) .....                                       |
@@ -267,6 +270,17 @@ fun searchMoviesByRating() {
         println(searchResults)
     }
 }
+
+fun searchMovieByUserName() {
+    val userToSearch = readNextLine("Enter the name of user to search by: ")
+    val searchResults = movieAPI.searchReviewByUser(userToSearch)
+    if (searchResults.isEmpty()) {
+        println("No review of this user is stored")
+    } else {
+        println(searchResults)
+    }
+}
+
 
 
 

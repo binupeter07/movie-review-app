@@ -104,10 +104,12 @@ class MovieAPI {
         return formatListString(searchResults)
     }
 
-//fun searchReviewByUser(username:String):List<Review>{
-//    val searchResult = movies.filter { movie -> movie.searchReviewsByUserName(username).isNotEmpty()  }
-//
-//}
+    fun searchReviewByUser(username: String): List<Movie> {
+        return movies.filter { movie ->
+            movie.searchMoviesByUserName(username).isNotEmpty()
+        }
+    }
+
 
 
 
