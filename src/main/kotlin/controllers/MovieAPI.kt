@@ -2,11 +2,13 @@ package controllers
 
 import models.Movie
 import models.Review
+import persistence.Serializer
 import utils.Utilities.formatListString
 import java.util.ArrayList
 
-class MovieAPI {
+class MovieAPI(serializerType: Serializer) {
 
+    private var serializer: Serializer =serializerType
     private var movies = ArrayList<Movie>()
     private var lastId = 0
     private fun getId() = lastId++
@@ -110,6 +112,15 @@ class MovieAPI {
         }
     }
 
+    @Throws(Exception::class)
+    fun load() {
+        movies = serializer.read() as ArrayList<Movie>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(movies)
+    }
 
 
 
