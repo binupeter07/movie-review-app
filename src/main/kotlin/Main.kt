@@ -1,13 +1,14 @@
 import controllers.MovieAPI
 import models.Movie
 import models.Review
+import persistence.JSONSerializer
 import persistence.XMLSerializer
 import utils.ScannerInput.readNextLine
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextBoolean
 import java.io.File
 import kotlin.system.exitProcess
-private val movieAPI = MovieAPI(XMLSerializer(File("movies.xml")))
+private val movieAPI = MovieAPI(JSONSerializer(File("movies.json")))
 
 fun main() = runMenu()
 
