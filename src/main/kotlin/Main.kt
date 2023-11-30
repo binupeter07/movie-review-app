@@ -1,11 +1,13 @@
 import controllers.MovieAPI
 import models.Movie
 import models.Review
+import persistence.XMLSerializer
 import utils.ScannerInput.readNextLine
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextBoolean
+import java.io.File
 import kotlin.system.exitProcess
-private val movieAPI = MovieAPI()
+private val movieAPI = MovieAPI(XMLSerializer(File("movies.xml")))
 
 fun main() = runMenu()
 
@@ -26,6 +28,9 @@ fun runMenu() {
             12 -> listTopFiveFavoriteMovies()
             13 -> searchMoviesByRating()
             14 -> searchMovieByUserName()
+            15 -> save()
+            16 -> load()
+            0 -> exitApp()
 
             -99 -> dummyData()
             else -> println("Invalid menu choice: $option")
@@ -59,9 +64,10 @@ fun mainMenu() = readNextInt(
          > | REPORT MENU FOR REVIEWS                           |                                
          > |   13) Search for all movies (by movie rating)     |
          > |   14) Search Movie by  reviewer username          |
-         > |   17) .....                                       |
-         > |   18) .....                                       |
-         > |   19) .....                                       |
+         > ----------------------------------------------------- 
+         > | REPORT MENU FOR REVIEWS                           |                                
+         > |   15) Save Movie                                  |
+         > |   16) Load Movie                                  |
          > -----------------------------------------------------  
          > |   0) Exit                                         |
          > -----------------------------------------------------  
@@ -311,6 +317,27 @@ private fun askUserToChooseReview(movie: Movie): Review? {
         println ("No items for chosen note")
         return null
     }
+}
+
+fun save() {
+    try {
+        movieAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        movieAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+
+fun exitApp(){
+    println("Exiting... Bye")
+    System.exit(0)
 }
 
 fun dummyData() {
