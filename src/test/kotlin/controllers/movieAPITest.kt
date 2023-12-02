@@ -331,6 +331,7 @@ class MovieAPITest {
             assertTrue(emptyMovies!!.searchByActor("").isEmpty())
         }
 
+
         @Test
         fun `searchMoviesByActor returns movies when movies with that movie name is exist in array` (){
             assertEquals(5, populatedMovies!!.numberOfMovies())
