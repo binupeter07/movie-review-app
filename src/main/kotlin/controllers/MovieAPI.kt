@@ -34,7 +34,13 @@ class MovieAPI(serializerType: Serializer) {
         return false
     }
 
-    fun delete(id: Int) = movies.removeIf { movie -> movie.movieId == id }
+//    fun delete(id: Int) = movies.removeIf { movie -> movie.movieId == id }
+
+    fun delete(indexToDelete: Int): Movie? {
+        return if (isValidListIndex(indexToDelete, movies)) {
+            movies.removeAt(indexToDelete)
+        } else null
+    }
 
     fun archiveMovie(id: Int): Boolean {
         val foundMovie = findMovie(id)
@@ -110,6 +116,10 @@ class MovieAPI(serializerType: Serializer) {
         return movies.filter { movie ->
             movie.searchMoviesByUserName(username).isNotEmpty()
         }
+    }
+
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
     }
 
     @Throws(Exception::class)

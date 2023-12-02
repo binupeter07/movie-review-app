@@ -152,13 +152,13 @@ fun updateMovie() {
     }
 }
 
-fun deleteMovie() {
+fun deleteMovie(){
     listMovies()
     if (movieAPI.numberOfMovies() > 0) {
-        val id = readNextInt("Enter the id of the movie to delete: ")
-        val movieToDelete = movieAPI.delete(id)
-        if (movieToDelete) {
-            println("Delete Successful!")
+        val indexToDelete = readNextInt("Enter the index of the movie to delete: ")
+        val movieToDelete = movieAPI.delete(indexToDelete)
+        if (movieToDelete != null) {
+            println("Delete Successful! Deleted movie: ${movieToDelete.movieName}")
         } else {
             println("Delete NOT Successful")
         }
@@ -177,7 +177,7 @@ fun archiveMovie() {
     }
 }
 
-private fun addRatingToMovie() {
+fun addRatingToMovie() {
     val movie: Movie? = askUserToChooseActiveMovie()
     if (movie != null) {
         val userName = readNextLine("Enter your name ")
@@ -234,7 +234,7 @@ fun deleteReview() {
     if (movie != null) {
         val review: Review? = askUserToChooseReview(movie)
         if (review != null) {
-            val isDeleted = movie.delete(review.ratingId)
+            val isDeleted = movie.deleteReview(review.ratingId)
             if (isDeleted) {
                 println("Delete Successful!")
             } else {
@@ -315,7 +315,7 @@ private fun askUserToChooseReview(movie: Movie): Review? {
         return movie.findOne(readNextInt("\nEnter the id of the review: "))
     }
     else{
-        println ("No items for chosen note")
+        println ("No items for chosen movie")
         return null
     }
 }
