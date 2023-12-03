@@ -17,4 +17,9 @@ object Utilities {
     fun formatSetString(ratingsToFormat: Set<Review>): String =
         ratingsToFormat
             .joinToString(separator = "\n") { review -> "\t$review" }
+
+    @JvmStatic
+    fun validRange(numberToCheck: Int, min: Int, max: Int): Boolean {
+        return numberToCheck in min..max
+    }
 }
