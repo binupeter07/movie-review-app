@@ -5,6 +5,7 @@ import persistence.JSONSerializer
 import utils.ScannerInput.readNextBoolean
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import utils.ValidateInput.readValidRating
 import java.io.File
 private val movieAPI = MovieAPI(JSONSerializer(File("movies.json")))
 
@@ -179,7 +180,7 @@ fun addRatingToMovie() {
     val movie: Movie? = askUserToChooseActiveMovie()
     if (movie != null) {
         val userName = readNextLine("Enter your name ")
-        val movieRating = readNextInt("Enter the rating ")
+        val movieRating = readValidRating("Enter the rating ")
         val movieReview = readNextLine("Tell me the review about the movie ")
         val isFavorite = readNextBoolean("Mark this movie as Favourite( Type yes or no ) ")
         movie.addRating(Review(name = userName, rating = movieRating, reviewText = movieReview, isFavorite = isFavorite))
