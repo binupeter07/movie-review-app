@@ -21,8 +21,10 @@ data class Movie(
     private var lastRatingId = 0
     private fun getRatingId() = lastRatingId++
 
+    // CRUD METHODS FOR REVIEW
     fun addRating(review: Review): Boolean {
         review.ratingId = getRatingId()
+        updateAverageRating()
         return reviews.add(review)
     }
 
@@ -45,6 +47,7 @@ data class Movie(
         return reviews.removeIf { review -> review.ratingId == id }
     }
 
+    // LISTING METHODS FOR REVIEW
     fun listRatings() =
         if (reviews.isEmpty()) {
             "\tNO RATINGS ADDED"
@@ -52,11 +55,13 @@ data class Movie(
             Utilities.formatSetString(reviews)
         }
 
-    fun updateAverageRating(): Double {
-        val average = reviews.map { review -> review.rating.toDouble() }.average()
-        return average
+    private fun updateAverageRating() {
+        if (reviews.isNotEmpty()) {
+            averageRating = reviews.map { review -> review.rating }.average()
+        }
     }
 
+    // SEARCHING METHODS FOR REVIEW
     fun searchMoviesByUserName(name: String): List<Review> {
         return reviews.filter { review -> review.name.equals(name, ignoreCase = true) }
     }
@@ -65,6 +70,7 @@ data class Movie(
         return reviews.find { review -> review.ratingId == id }
     }
 
+    // COUNTING METHODS FOR REVIEW
     fun numberOfRatings() = reviews.size
 
     fun numberOfFavorites() = reviews.count { review -> review.isFavorite }

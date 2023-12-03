@@ -74,11 +74,13 @@ fun mainMenu() = readNextInt(
          > ==>> """.trimMargin(">")
 )
 
+// CRUD Activities of Movie
+
 fun addMovie() {
     val movieName = readNextLine("Enter the name of movie: ")
-    val movieGenre = readNextLine("Enter the genre")
+    val movieGenre = readNextLine("Enter the genre: ")
     val movieDirector = readNextLine("Enter director name: ")
-    val movieStars = readNextLine("Enter actors name : ")
+    val movieStars = readNextLine("Enter actors name: ")
     val isAdded = movieAPI.add(Movie(movieName = movieName, movieGenre = movieGenre, directorName = movieDirector, stars = movieStars))
 
     if (isAdded) {
@@ -176,11 +178,12 @@ fun archiveMovie() {
     }
 }
 
+//  CRUD Activities of Review
 fun addRatingToMovie() {
     val movie: Movie? = askUserToChooseActiveMovie()
     if (movie != null) {
         val userName = readNextLine("Enter your name ")
-        val movieRating = readValidRating("Enter the rating ")
+        val movieRating = readValidRating("Enter the rating (1 - 10) ")
         val movieReview = readNextLine("Tell me the review about the movie ")
         val isFavorite = readNextBoolean("Mark this movie as Favourite( Type yes or no ) ")
         movie.addRating(Review(name = userName, rating = movieRating, reviewText = movieReview, isFavorite = isFavorite))
@@ -224,7 +227,7 @@ fun updateReviewsInMovie() {
             println("There are no reviews for this index number")
         }
     } else {
-        println("Invalid Item Id")
+        println("Invalid rating Id")
     }
 }
 
@@ -267,6 +270,9 @@ fun searchMovieByActor() {
     }
 }
 
+// ------------------------------------
+// REVIEW REPORTS MENU
+// ------------------------------------
 fun searchMoviesByRating() {
     val ratingToSearch = readNextInt("Enter the rating to search by: ")
     val searchResults = movieAPI.searchMoviesByRating(ratingToSearch.toDouble())
