@@ -12,6 +12,7 @@ object ValidateInput {
                 print("Invalid rating $input.. Give rating between 1 to 10  \n")
                 input = ScannerInput.readNextInt(prompt)
             }
+
         } while (true)
     }
 }
