@@ -2,12 +2,10 @@ import controllers.MovieAPI
 import models.Movie
 import models.Review
 import persistence.JSONSerializer
-import persistence.XMLSerializer
-import utils.ScannerInput.readNextLine
-import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextBoolean
+import utils.ScannerInput.readNextInt
+import utils.ScannerInput.readNextLine
 import java.io.File
-import kotlin.system.exitProcess
 private val movieAPI = MovieAPI(JSONSerializer(File("movies.json")))
 
 fun main() = runMenu()
@@ -75,14 +73,12 @@ fun mainMenu() = readNextInt(
          > ==>> """.trimMargin(">")
 )
 
-
-
 fun addMovie() {
     val movieName = readNextLine("Enter the name of movie: ")
     val movieGenre = readNextLine("Enter the genre")
     val movieDirector = readNextLine("Enter director name: ")
     val movieStars = readNextLine("Enter actors name : ")
-    val isAdded = movieAPI.add(Movie( movieName= movieName, movieGenre = movieGenre, directorName = movieDirector, stars = movieStars))
+    val isAdded = movieAPI.add(Movie(movieName = movieName, movieGenre = movieGenre, directorName = movieDirector, stars = movieStars))
 
     if (isAdded) {
         println("Added Successfully")
@@ -154,7 +150,7 @@ fun updateMovie() {
     }
 }
 
-fun deleteMovie(){
+fun deleteMovie() {
     listMovies()
     if (movieAPI.numberOfMovies() > 0) {
         val indexToDelete = readNextInt("Enter the index of the movie to delete: ")
@@ -188,9 +184,9 @@ fun addRatingToMovie() {
         val isFavorite = readNextBoolean("Mark this movie as Favourite( Type yes or no ) ")
         movie.addRating(Review(name = userName, rating = movieRating, reviewText = movieReview, isFavorite = isFavorite))
         println("Add Successful!")
+    } else {
+        println("Add NOT Successful")
     }
-    else println("Add NOT Successful")
-
 }
 
 fun updateReviewsInMovie() {
@@ -246,21 +242,21 @@ fun deleteReview() {
     }
 }
 
-//------------------------------------
-//MOVIE REPORTS MENU
-//------------------------------------
+// ------------------------------------
+// MOVIE REPORTS MENU
+// ------------------------------------
 
-fun searchMovieByGenre(){
-        val searchGenre = readNextLine("Enter the genre to search by: ")
-        val searchResults = movieAPI.searchByGenre(searchGenre)
-        if (searchResults.isEmpty()) {
-            println("No movies for this genre stored")
-        } else {
-            println(searchResults)
-        }
+fun searchMovieByGenre() {
+    val searchGenre = readNextLine("Enter the genre to search by: ")
+    val searchResults = movieAPI.searchByGenre(searchGenre)
+    if (searchResults.isEmpty()) {
+        println("No movies for this genre stored")
+    } else {
+        println(searchResults)
+    }
 }
 
-fun searchMovieByActor(){
+fun searchMovieByActor() {
     val searchActor = readNextLine("Enter the actor to search by: ")
     val searchResults = movieAPI.searchByActor(searchActor)
     if (searchResults.isEmpty()) {
@@ -290,10 +286,6 @@ fun searchMovieByUserName() {
     }
 }
 
-
-
-
-
 private fun askUserToChooseActiveMovie(): Movie? {
     listActiveMovies()
     if (movieAPI.numberOfActiveMovies() > 0) {
@@ -315,9 +307,8 @@ private fun askUserToChooseReview(movie: Movie): Review? {
     if (movie.numberOfRatings() > 0) {
         print(movie.listRatings())
         return movie.findOne(readNextInt("\nEnter the id of the review: "))
-    }
-    else{
-        println ("No items for chosen movie")
+    } else {
+        println("No items for chosen movie")
         return null
     }
 }
@@ -338,15 +329,15 @@ fun load() {
     }
 }
 
-fun exitApp(){
+fun exitApp() {
     println("Exiting... Bye")
     System.exit(0)
 }
 
 fun dummyData() {
-   movieAPI.add(Movie( movieName= "neram", movieGenre = "thriller", directorName = "alphonse", stars = "nivin pauly,nazriya"))
-    movieAPI.add(Movie( movieName= "premam", movieGenre = "entertainment", directorName = "alphonse", stars = "nivin pauly"))
-    movieAPI.add(Movie( movieName= "varathan", movieGenre = "thriller", directorName = "amal neerad", stars = "fahad fasil"))
+    movieAPI.add(Movie(movieName = "neram", movieGenre = "thriller", directorName = "alphonse", stars = "nivin pauly,nazriya"))
+    movieAPI.add(Movie(movieName = "premam", movieGenre = "entertainment", directorName = "alphonse", stars = "nivin pauly"))
+    movieAPI.add(Movie(movieName = "varathan", movieGenre = "thriller", directorName = "amal neerad", stars = "fahad fasil"))
 }
 fun listAllMovies() = println(movieAPI.listAllMovies())
 fun listActiveMovies() = println(movieAPI.listActiveMovies())
