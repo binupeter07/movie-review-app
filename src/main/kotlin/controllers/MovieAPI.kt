@@ -39,8 +39,6 @@ class MovieAPI(serializerType: Serializer) {
         return false
     }
 
-//    fun delete(id: Int) = movies.removeIf { movie -> movie.movieId == id }
-
     fun delete(indexToDelete: Int): Movie? {
         return if (isValidListIndex(indexToDelete, movies)) {
             movies.removeAt(indexToDelete)
@@ -75,15 +73,6 @@ class MovieAPI(serializerType: Serializer) {
             formatListString(movies.filter { movie -> !movie.isMovieArchived })
         }
 
-    // ----------------------------------------------
-    //  COUNTING METHODS FOR MOVIE ArrayList
-    // ----------------------------------------------
-    fun numberOfMovies() = movies.size
-    fun numberOfActiveMovies(): Int = movies.count { movie: Movie -> !movie.isMovieArchived }
-
-    // ----------------------------------------------
-    //  LISTING METHODS FOR MOVIE ArrayList
-    // ----------------------------------------------
     fun listArchivedMovies() =
         if (numberOfArchivedMovies() == 0) {
             "No archived movies stored"
@@ -105,6 +94,12 @@ class MovieAPI(serializerType: Serializer) {
             formatListString(movies.sortedByDescending { movie -> movie.numberOfFavorites() }.take(5))
         }
     }
+
+    // ----------------------------------------------
+    //  COUNTING METHODS FOR MOVIE ArrayList
+    // ----------------------------------------------
+    fun numberOfMovies() = movies.size
+    fun numberOfActiveMovies(): Int = movies.count { movie: Movie -> !movie.isMovieArchived }
 
     fun numberOfArchivedMovies(): Int = movies.count { movie: Movie -> movie.isMovieArchived }
 
