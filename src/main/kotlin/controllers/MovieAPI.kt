@@ -1,7 +1,6 @@
 package controllers
 
 import models.Movie
-import models.Review
 import persistence.Serializer
 import utils.Utilities.formatListString
 import java.util.ArrayList
@@ -14,7 +13,7 @@ import java.util.ArrayList
 
 class MovieAPI(serializerType: Serializer) {
 
-    private var serializer: Serializer =serializerType
+    private var serializer: Serializer = serializerType
     private var movies = ArrayList<Movie>()
     private var lastId = 0
     private fun getId() = lastId++
@@ -45,7 +44,9 @@ class MovieAPI(serializerType: Serializer) {
     fun delete(indexToDelete: Int): Movie? {
         return if (isValidListIndex(indexToDelete, movies)) {
             movies.removeAt(indexToDelete)
-        } else null
+        } else {
+            null
+        }
     }
 
     fun archiveMovie(id: Int): Boolean {
@@ -61,14 +62,18 @@ class MovieAPI(serializerType: Serializer) {
     //  LISTING METHODS FOR MOVIE ArrayList
     // ----------------------------------------------
     fun listAllMovies() =
-        if (movies.isEmpty()) "No movies stored"
-        else formatListString(movies)
+        if (movies.isEmpty()) {
+            "No movies stored"
+        } else {
+            formatListString(movies)
+        }
 
     fun listActiveMovies() =
-        if (numberOfActiveMovies() == 0) "No active movies stored"
-        else formatListString(movies.filter { movie -> !movie.isMovieArchived })
-
-
+        if (numberOfActiveMovies() == 0) {
+            "No active movies stored"
+        } else {
+            formatListString(movies.filter { movie -> !movie.isMovieArchived })
+        }
 
     // ----------------------------------------------
     //  COUNTING METHODS FOR MOVIE ArrayList
@@ -80,12 +85,18 @@ class MovieAPI(serializerType: Serializer) {
     //  LISTING METHODS FOR MOVIE ArrayList
     // ----------------------------------------------
     fun listArchivedMovies() =
-        if (numberOfArchivedMovies() == 0) "No archived movies stored"
-        else formatListString(movies.filter { movie -> movie.isMovieArchived })
+        if (numberOfArchivedMovies() == 0) {
+            "No archived movies stored"
+        } else {
+            formatListString(movies.filter { movie -> movie.isMovieArchived })
+        }
 
     fun listTopFiveRatedMovies() =
-        if (numberOfActiveMovies() == 0) "No active movies stored"
-        else formatListString(movies.sortedByDescending { movie -> movie.averageRating }.take(5))
+        if (numberOfActiveMovies() == 0) {
+            "No active movies stored"
+        } else {
+            formatListString(movies.sortedByDescending { movie -> movie.averageRating }.take(5))
+        }
 
     fun listTopFiveMoviesByFavorites(): String {
         return if (numberOfActiveMovies() == 0) {
@@ -95,10 +106,7 @@ class MovieAPI(serializerType: Serializer) {
         }
     }
 
-
-
     fun numberOfArchivedMovies(): Int = movies.count { movie: Movie -> movie.isMovieArchived }
-
 
     // ----------------------------------------------
     //  SEARCHING METHODS
@@ -107,11 +115,13 @@ class MovieAPI(serializerType: Serializer) {
 
     fun searchByGenre(genre: String) =
         formatListString(
-            movies.filter { movie -> movie.movieGenre.contains(genre, ignoreCase = true) })
+            movies.filter { movie -> movie.movieGenre.contains(genre, ignoreCase = true) }
+        )
 
     fun searchByActor(actor: String) =
         formatListString(
-            movies.filter { movie -> movie.stars.contains(actor, ignoreCase = true) })
+            movies.filter { movie -> movie.stars.contains(actor, ignoreCase = true) }
+        )
 
     fun searchMoviesByRating(rating: Double): String {
         val searchResults = movies.filter { movie -> movie.averageRating == rating }
@@ -137,8 +147,4 @@ class MovieAPI(serializerType: Serializer) {
     fun store() {
         serializer.write(movies)
     }
-
-
-
 }
-

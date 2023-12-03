@@ -3,7 +3,6 @@ package utils
 import java.lang.NumberFormatException
 import java.util.Scanner
 
-
 object ScannerInput {
 
     /**
@@ -40,7 +39,7 @@ object ScannerInput {
                 val userInput = Scanner(System.`in`).next().lowercase()
                 if (userInput == "yes") {
                     return true
-                } else if (userInput == "no" ) {
+                } else if (userInput == "no") {
                     return false
                 }
             } catch (e: Exception) {
@@ -67,7 +66,6 @@ object ScannerInput {
             }
         } while (true)
     }
-
 
     /**
      * Read a line of text from the user.  There is no validation done on the entered data.

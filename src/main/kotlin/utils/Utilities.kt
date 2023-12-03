@@ -11,12 +11,10 @@ object Utilities {
     @JvmStatic
     fun formatListString(moviesToFormat: List<Movie>): String =
         moviesToFormat
-            .joinToString(separator = "\n") { movie ->  "$movie" }
-
+            .joinToString(separator = "\n") { movie -> "$movie" }
 
     @JvmStatic
     fun formatSetString(ratingsToFormat: Set<Review>): String =
         ratingsToFormat
-            .joinToString(separator = "\n") { review ->  "\t$review" }
-
+            .joinToString(separator = "\n") { review -> "\t$review" }
 }
