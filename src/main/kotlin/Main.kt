@@ -75,6 +75,8 @@ fun mainMenu() = readNextInt(
          > ==>> """.trimMargin(">")
 )
 
+
+
 fun addMovie() {
     val movieName = readNextLine("Enter the name of movie: ")
     val movieGenre = readNextLine("Enter the genre")

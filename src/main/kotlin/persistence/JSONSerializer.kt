@@ -7,6 +7,9 @@ import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 
+/**
+ * The JSONSerializer class is a part that is made to serialize and deserialize objects using the JSON format.
+ */
 class JSONSerializer (private val file: File) : Serializer {
 
     @Throws(Exception::class)

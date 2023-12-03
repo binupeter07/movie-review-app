@@ -6,6 +6,12 @@ import persistence.Serializer
 import utils.Utilities.formatListString
 import java.util.ArrayList
 
+/**
+ * The MovieAPI controller class in the provided code serves as a central component for managing a collection of movies.
+ * It interfaces with a persistence layer through a specified serializer.
+ * CRUD (Create, Read, Update, Delete) operations for movies are managed in this controller.
+ */
+
 class MovieAPI(serializerType: Serializer) {
 
     private var serializer: Serializer =serializerType
