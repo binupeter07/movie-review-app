@@ -8,6 +8,9 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.lang.Exception
 
+/**
+ * The XMLSerializer class is a part that is made to serialize and deserialize objects using the XML format.
+ */
 class XMLSerializer(private val file: File) : Serializer {
 
     override fun read(): Any {

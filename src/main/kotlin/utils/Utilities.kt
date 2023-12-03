@@ -13,6 +13,7 @@ object Utilities {
         moviesToFormat
             .joinToString(separator = "\n") { movie ->  "$movie" }
 
+
     @JvmStatic
     fun formatSetString(ratingsToFormat: Set<Review>): String =
         ratingsToFormat

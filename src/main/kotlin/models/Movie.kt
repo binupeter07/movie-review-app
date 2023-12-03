@@ -2,6 +2,12 @@ package models
 
 import utils.Utilities
 
+
+/**
+ * Movie Model class represent the information about a movie with the primary constructors of various properties including Movie id, Movie name, Movie genre, Director name , Stars.
+ * It also has a mutable set of Review model
+ * The functions related to reviews such as addRating, Update rating, Delete rating are written in this model.
+ */
 data class Movie (var movieId: Int =0,
              var movieName: String,
              var movieGenre: String,
